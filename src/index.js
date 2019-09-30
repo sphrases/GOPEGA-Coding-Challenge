@@ -5,6 +5,13 @@ import Button from "@material-ui/core/Button";
 import "./styles.css";
 import TextField from "@material-ui/core/TextField";
 import {Container} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 
 
 function App() {
@@ -16,8 +23,21 @@ function App() {
     );
 }
 
+function createData(name, calories, fat, carbs, protein) {
+    return {name, calories, fat, carbs, protein};
+}
+
+const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
 
 class NameForm extends React.Component {
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -69,34 +89,65 @@ class NameForm extends React.Component {
 
     render() {
         return (<Container fixed>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <TextField
-                            label="Name"
-                            value={this.state.name}
-                            onChange={this.handleChangeName}
-                            required={true}
-                        />
+                <Grid container spacing={3}>
+                    <Grid item xs={2} color="green">
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                <TextField
+                                    label="name"
+                                    value={this.state.name}
+                                    onChange={this.handleChangeName}
+                                    required={true}
+                                    margin="normal"
+                                    fullWidth
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <TextField
+                                    label="sex"
+                                    value={this.state.sex}
+                                    onChange={this.handleChangeSex}
+                                    required={true}
+                                    margin="normal"
+                                    fullWidth
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <TextField
+                                    label="date"
+                                    type="date"
+                                    value={this.state.DOB}
+                                    onChange={this.handleChangeDOB}
+                                    required={true}
+                                    margin="normal"
+                                    fullWidth
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <br/>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    type="submit"
+                                    value="Submit"
+                                    fullWidth
+                                >
+                                    create customer
+                                </Button>
 
-                        <TextField
-                            label="sex"
-                            value={this.state.sex}
-                            onChange={this.handleChangeSex}
-                            required={false}
-                        />
+                            </label>
 
-                        <TextField
-                            label="date"
-                            type="date"
-                            value={this.state.DOB}
-                            onChange={this.handleChangeDOB}
-                            required={false}
-                        />
-                    </label>
-                    <Button variant="contained" color="primary" type="submit" value="Submit">Submit</Button>
+                        </form>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <CustomerList customers={this.state.customers}/>
 
-                </form>
-                <CustomerList customers={this.state.customers}/>
+
+                    </Grid>
+                </Grid>
             </Container>
         ) //ends return
     }
@@ -129,8 +180,18 @@ class CustomerList extends React.Component {
     fillCustomerList(customers) {
         let customerDiv = [];
         for (const [i, value] of customers.entries()) {
-            customerDiv = customerDiv.concat(<CustomerDiv customer={value}/>)
+            let cstmer = (
+            <TableRow key={value.name}>
+                <TableCell component="th" scope="row">
+                    {value.name}
+                </TableCell>
+                <TableCell align="right">{value.sex}</TableCell>
+                <TableCell align="right">{value.DOB}</TableCell>
+            </TableRow>
+            );
+            customerDiv = customerDiv.concat(cstmer);
         }
+        console.log(customerDiv);
 
         this.setState({
             customerDivs: customerDiv
@@ -172,17 +233,18 @@ class CustomerList extends React.Component {
 
     render() {
         //return the List as <list elem="filteredList"/>
+        //<Button type="submit" value="Submit">search</Button>
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                        Search Parameter:
-                        <input type='text' value={this.state.searchField} onChange={this.handleChangeSearch}
-                               required={false}/>
 
                         <TextField
                             id="outlined-full-width"
                             label="Search"
+                            value={this.state.searchField}
+                            onChange={this.handleChangeSearch}
+                            required={false}
                             style={{margin: 8}}
                             placeholder=""
                             helperText=""
@@ -192,16 +254,22 @@ class CustomerList extends React.Component {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                        /><Button type="submit" value="Submit">search</Button>
-
-
+                        />
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell align="right">Sex</TableCell>
+                                    <TableCell align="right">Birthday</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.state.customerDivs}
+                            </TableBody>
+                        </Table>
                     </label>
-
-
                 </form>
-                {this.state.customerDivs}
             </div>);
-
     }
 }
 
