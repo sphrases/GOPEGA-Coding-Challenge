@@ -1,6 +1,6 @@
 # GOPEGA-Coding-Challenge
 
-##Task
+## Task
 
 1.	Implement a simple createCustomer screen with a 
 simple call to action button to add customers to a list. 
@@ -11,7 +11,7 @@ date of birth. Display all information of the customers.
 4.	Get Creative and add additional features a user 
 	might find useful (optional). 
 
-##Working
+## Working
 - Create Customer
 	- Name
 	- Gender
@@ -20,7 +20,7 @@ date of birth. Display all information of the customers.
 	- Filters only by name currently, could be changed 
 
 
-##Nice to have
+## Nice to have
 - Date object instead of date as a string (complications with React not allowing objects to be passed)
 
 - Minor filtering on the inputs (Gender as dropdown, limited to maybe three options)
