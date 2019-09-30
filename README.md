@@ -11,7 +11,7 @@ date of birth. Display all information of the customers.
 4.	Get Creative and add additional features a user 
 	might find useful (optional). 
 	
-Running Code on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku")
+Running application on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku")
 
 ## Working
 - Create Customer
@@ -21,19 +21,17 @@ Running Code on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku")
 - Filter customer
 	- Filters only by name currently, could be changed 
 
-
 ## Nice to have
 - Date object instead of date as a string (complications with React not allowing objects to be passed, would use `@material-ui/pickers` library)
 
-- Minor filtering on the inputs (Gender as dropdown, limited to maybe three options)
+- Minor filtering on the inputs (Valid Date? Valid Name?)
 
 - Sorting by either name, gender or DOB (could be done with 
 
    `_.orderBy(customerDivs, [{sortCriteria}],[{sortDirection}]))`
 
+    but I would use an external library for the table anyways, to provide sort functionality as well as more advanced UI elements 
 - Filter customers by not only name, but also gender and DOB
 
 	`if (e. `_CHANGE THIS_`.toUpperCase().includes(input.toUpperCase())) 
                     customerMatch.push(e);`
-- Handle the keys differently (Again, date objects can't be used as the key sadly. Maybe unix timestamp, or sequencial number)
-

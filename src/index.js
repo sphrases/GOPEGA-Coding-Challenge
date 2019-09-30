@@ -15,7 +15,6 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Paper from "@material-ui/core/Paper";
 
 const sampleCustomers = [
     {
@@ -81,10 +80,8 @@ class NameForm extends React.Component {
     }
 
     handleSubmit(event) {
-        //alert('A name was submitted: ' + this.state.name + '  ' + this.state.sex + '  ' + this.state.DOB);
         //add to customer array from state
         //reset current state, to clear customer data.
-        //pass customer data to foreach and customer div
         let newCustomer = {
             name: this.state.name,
             sex: this.state.sex,
