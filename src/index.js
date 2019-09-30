@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import _ from 'lodash';
-
-
+import Button from "@material-ui/core/Button";
 import "./styles.css";
+import TextField from "@material-ui/core/TextField";
+import {Container} from "@material-ui/core";
+
 
 function App() {
     return (
@@ -66,21 +68,36 @@ class NameForm extends React.Component {
     }
 
     render() {
-        return (<div>
+        return (<Container fixed>
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                        Name:
-                        <input type="text" value={this.state.name} onChange={this.handleChangeName} required={true}/>
-                        Sex:
-                        <input type="text" value={this.state.sex} onChange={this.handleChangeSex} required={false}/>
-                        Date OF Birth:
-                        <input type="date" value={this.state.DOB} onChange={this.handleChangeDOB} required={false}/>
+                        <TextField
+                            label="Name"
+                            value={this.state.name}
+                            onChange={this.handleChangeName}
+                            required={true}
+                        />
+
+                        <TextField
+                            label="sex"
+                            value={this.state.sex}
+                            onChange={this.handleChangeSex}
+                            required={false}
+                        />
+
+                        <TextField
+                            label="date"
+                            type="date"
+                            value={this.state.DOB}
+                            onChange={this.handleChangeDOB}
+                            required={false}
+                        />
                     </label>
-                    <input type="submit" value="Submit"/>
+                    <Button variant="contained" color="primary" type="submit" value="Submit">Submit</Button>
 
                 </form>
                 <CustomerList customers={this.state.customers}/>
-            </div>
+            </Container>
         ) //ends return
     }
 }
@@ -102,8 +119,8 @@ class CustomerList extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.customers !== prevProps.customers) {
             this.setState({
-                customers: this.state.customers.concat(this.props.customers)
-            },
+                    customers: this.state.customers.concat(this.props.customers)
+                },
                 () => this.fillCustomerList(this.state.customers)
             )
         }
@@ -112,7 +129,7 @@ class CustomerList extends React.Component {
     fillCustomerList(customers) {
         let customerDiv = [];
         for (const [i, value] of customers.entries()) {
-           customerDiv = customerDiv.concat(<CustomerDiv customer={value}/>)
+            customerDiv = customerDiv.concat(<CustomerDiv customer={value}/>)
         }
 
         this.setState({
@@ -162,8 +179,24 @@ class CustomerList extends React.Component {
                         Search Parameter:
                         <input type='text' value={this.state.searchField} onChange={this.handleChangeSearch}
                                required={false}/>
+
+                        <TextField
+                            id="outlined-full-width"
+                            label="Search"
+                            style={{margin: 8}}
+                            placeholder=""
+                            helperText=""
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        /><Button type="submit" value="Submit">search</Button>
+
+
                     </label>
-                    <input type="submit" value="Submit"/>
+
 
                 </form>
                 {this.state.customerDivs}
