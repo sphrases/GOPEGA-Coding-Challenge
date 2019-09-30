@@ -23,7 +23,7 @@ Running Code on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku")
 
 
 ## Nice to have
-- Date object instead of date as a string (complications with React not allowing objects to be passed)
+- Date object instead of date as a string (complications with React not allowing objects to be passed, would use `@material-ui/pickers` library)
 
 - Minor filtering on the inputs (Gender as dropdown, limited to maybe three options)
 

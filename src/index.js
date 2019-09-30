@@ -15,28 +15,29 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
 
 const sampleCustomers = [
     {
-        key: new Date('1996-07-09T03:24:00'),
+        key: 1,
         name: "Mike",
         sex: "male",
         DOB: "1996-07-09"
     },
     {
-        key: new Date('1993-08-01T02:30:12'),
+        key: 2,
         name: "Tom",
         sex: "male",
         DOB: "1993-08-01"
     },
     {
-        key: new Date('1987-03-05T02:30:12'),
+        key: 3,
         name: "Jenny",
         sex: "female",
         DOB: "1987-03-05"
     },
     {
-        key: new Date('1981-01-12T02:30:12'),
+        key: 4,
         name: "Jake",
         sex: "male",
         DOB: "1981-01-12"
@@ -84,9 +85,7 @@ class NameForm extends React.Component {
         //add to customer array from state
         //reset current state, to clear customer data.
         //pass customer data to foreach and customer div
-        let date = new Date();
         let newCustomer = {
-            key: date.now,
             name: this.state.name,
             sex: this.state.sex,
             DOB: this.state.DOB
@@ -113,21 +112,24 @@ class NameForm extends React.Component {
                                     required={true}
                                     margin="normal"
                                     fullWidth
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
                                 />
-                                <TextField
-                                    label="gender"
-                                    value={this.state.sex}
-                                    onChange={this.handleChangeSex}
-                                    required={true}
-                                    margin="normal"
-                                    fullWidth
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
+                                <FormControl fullWidth >
+                                    <InputLabel
+                                        htmlFor="age-simple">
+                                        gender</InputLabel>
+                                    <Select
+                                        value={this.state.sex}
+                                        onChange={this.handleChangeSex}
+
+                                        inputProps={{
+                                            name: 'gender',
+                                            id: 'gender-simple'
+                                        }}>
+                                        <MenuItem value={"female"} textAlign='left'>female</MenuItem>
+                                        <MenuItem value={"male"}>male</MenuItem>
+                                        <MenuItem value={"other"}>other</MenuItem>
+                                    </Select>
+                                </FormControl>
                                 <TextField
                                     label="birthday"
                                     type="date"
@@ -146,8 +148,7 @@ class NameForm extends React.Component {
                                     color="primary"
                                     type="submit"
                                     value="Submit"
-                                    fullWidth
-                                >
+                                    fullWidth>
                                     create customer
                                 </Button>
                             </label>
@@ -164,8 +165,6 @@ class NameForm extends React.Component {
 
 
 class CustomerList extends React.Component {
-    inputLabel;
-
     //use this to filter list
     constructor(props) {
         super(props);
@@ -189,8 +188,11 @@ class CustomerList extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.customers !== prevProps.customers) {
+            let lastCustomerID = this.state.customers[this.state.customers.length - 1].key;
+            let newCustomer = this.props.customers;
+            newCustomer.key = lastCustomerID + 1;
             this.setState({
-                    customers: this.state.customers.concat(this.props.customers)
+                    customers: this.state.customers.concat(newCustomer)
                 },
                 () => this.fillCustomerList(this.state.customers)
             )
@@ -207,7 +209,7 @@ class CustomerList extends React.Component {
                     </TableCell>
                     <TableCell align="right">{value.sex}</TableCell>
                     <TableCell align="right">{value.DOB}</TableCell>
-                    <TableCell align="right">{value.DOB}</TableCell>
+                    <TableCell align="right">{value.key}</TableCell>
                 </TableRow>
             );
             customerDiv = customerDiv.concat(cstmer);
