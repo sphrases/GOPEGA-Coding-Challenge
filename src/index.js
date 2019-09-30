@@ -101,10 +101,11 @@ class CustomerList extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.customers !== prevProps.customers) {
-            this.fillCustomerList(this.props.customers);
             this.setState({
-                customers: this.props.customers
-            })
+                customers: this.state.customers.concat(this.props.customers)
+            },
+                () => this.fillCustomerList(this.state.customers)
+            )
         }
     }
 
@@ -115,10 +116,8 @@ class CustomerList extends React.Component {
         }
 
         this.setState({
-            customerDivs: this.state.customerDivs.concat(customerDiv),
+            customerDivs: customerDiv
         });
-
-        console.log(this.state.customerDivs);
     }
 
     emptyCustomerList() {
@@ -130,31 +129,24 @@ class CustomerList extends React.Component {
     }
 
     handleChangeSearch(event) {
-        this.setState({searchField: event.target.value});
+        this.setState({searchField: event.target.value},
+            () => this.filterName(this.state.searchField));
     }
 
     handleSubmit(event) {
-        console.log(this.state.searchField);
         event.preventDefault();
         this.filterName(this.state.searchField);
     }
 
     filterName(name) {
         let customerList = this.state.customers;
-        console.log(customerList);
         if (name !== '') {
-            //The filter Form was submitted
-
-            //filter contains
-            //
             let q = _.filter(customerList, {name: name});
-            console.log(q);
             if (q !== undefined) {
                 this.emptyCustomerList();
                 this.fillCustomerList(q);
             }
         } else {
-            console.log("empty!");
             this.emptyCustomerList();
             this.fillCustomerList(customerList);
         }
