@@ -6,13 +6,34 @@ import "./styles.css";
 import TextField from "@material-ui/core/TextField";
 import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 
+const sampleCustomers = [
+    {
+        name: "Mike",
+        sex: "male",
+        DOB: "1996-07-09"
+    },
+    {
+        name: "Tom",
+        sex: "male",
+        DOB: "1993-08-01"
+    },
+    {
+        name: "Jenny",
+        sex: "female",
+        DOB: "1987-03-05"
+    },
+    {
+        name: "Jake",
+        sex: "male",
+        DOB: "1981-01-12"
+    }
+];
 
 function App() {
     return (
@@ -23,18 +44,6 @@ function App() {
     );
 }
 
-function createData(name, calories, fat, carbs, protein) {
-    return {name, calories, fat, carbs, protein};
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 class NameForm extends React.Component {
 
 
@@ -44,7 +53,7 @@ class NameForm extends React.Component {
             name: '',
             sex: '',
             DOB: '',
-            customers: []
+            customer: {}
         };
 
         this.handleChangeName = this.handleChangeName.bind(this);
@@ -78,7 +87,7 @@ class NameForm extends React.Component {
             DOB: this.state.DOB
         };
         this.setState({
-            customers: newCustomer,
+            customer: newCustomer,
             name: '',
             sex: '',
             DOB: ''
@@ -143,9 +152,7 @@ class NameForm extends React.Component {
                         </form>
                     </Grid>
                     <Grid item xs={10}>
-                        <CustomerList customers={this.state.customers}/>
-
-
+                        <CustomerList customers={this.state.customer}/>
                     </Grid>
                 </Grid>
             </Container>
@@ -163,8 +170,18 @@ class CustomerList extends React.Component {
             customerDivs: [],
             customers: []
         };
+
+
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+                customers: this.state.customers.concat(sampleCustomers)
+            },
+            () => this.fillCustomerList(this.state.customers)
+        )
     }
 
     componentDidUpdate(prevProps) {
@@ -181,13 +198,13 @@ class CustomerList extends React.Component {
         let customerDiv = [];
         for (const [i, value] of customers.entries()) {
             let cstmer = (
-            <TableRow key={value.name}>
-                <TableCell component="th" scope="row">
-                    {value.name}
-                </TableCell>
-                <TableCell align="right">{value.sex}</TableCell>
-                <TableCell align="right">{value.DOB}</TableCell>
-            </TableRow>
+                <TableRow key={value.name}>
+                    <TableCell component="th" scope="row">
+                        {value.name}
+                    </TableCell>
+                    <TableCell align="right">{value.sex}</TableCell>
+                    <TableCell align="right">{value.DOB}</TableCell>
+                </TableRow>
             );
             customerDiv = customerDiv.concat(cstmer);
         }
@@ -202,7 +219,7 @@ class CustomerList extends React.Component {
         /* this.setState({
             customerDivs: []
         }); */
-        //very bad! but the other stuff doesnt work
+        //very bad! but the other stuff doesnt work. Sync issues
         this.state.customerDivs.length = 0;
     }
 
@@ -270,19 +287,6 @@ class CustomerList extends React.Component {
                     </label>
                 </form>
             </div>);
-    }
-}
-
-
-class CustomerDiv extends React.Component {
-    //Get Customers as filtered list, and display as Table
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (<div>name: {this.props.customer.name}</div>)
-
     }
 }
 
