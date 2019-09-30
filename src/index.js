@@ -11,6 +11,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const sampleCustomers = [
     {
@@ -160,13 +164,16 @@ class NameForm extends React.Component {
 
 
 class CustomerList extends React.Component {
+    inputLabel;
+
     //use this to filter list
     constructor(props) {
         super(props);
         this.state = {
             searchField: '',
             customerDivs: [],
-            customers: []
+            customers: [],
+            searchCriteria: 'sex'
         };
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -200,6 +207,7 @@ class CustomerList extends React.Component {
                     </TableCell>
                     <TableCell align="right">{value.sex}</TableCell>
                     <TableCell align="right">{value.DOB}</TableCell>
+                    <TableCell align="right">{value.DOB}</TableCell>
                 </TableRow>
             );
             customerDiv = customerDiv.concat(cstmer);
@@ -207,14 +215,6 @@ class CustomerList extends React.Component {
         this.setState({
             customerDivs: customerDiv
         });
-    }
-
-    emptyCustomerList() {
-        /* this.setState({
-            customerDivs: []
-        }); */
-        //very bad! but the other stuff doesnt work. Sync issues
-        this.state.customerDivs.length = 0;
     }
 
     handleChangeSearch(event) {
@@ -227,25 +227,26 @@ class CustomerList extends React.Component {
         this.filterName(this.state.searchField);
     }
 
-    filterName(name) {
+    filterName(input) {
         let customerList = this.state.customers;
-        if (name !== '') {  //meh
+        if (input !== '') {  //meh
             let customerMatch = [];
             _.some(customerList, function (e) {
-                if(e.name.toUpperCase().includes(name.toUpperCase())) {
+                if (e.name.toUpperCase().includes(input.toUpperCase())) {
                     customerMatch.push(e);
-               }
+                }
             });
-            let q = customerMatch;//_.filter(customerList, {name: name});
+            let q = customerMatch; //_.filter(customerList, {name: name});
             if (q !== undefined) {
-                //this.emptyCustomerList();
+
                 this.fillCustomerList(q);
             }
         } else {
-            //this.emptyCustomerList();
+
             this.fillCustomerList(customerList);
         }
     }
+
 
     render() {
         //return the List as <list elem="filteredList"/>
@@ -264,27 +265,28 @@ class CustomerList extends React.Component {
                             style={{margin: 8}}
                             placeholder=""
                             helperText=""
-                            fullWidth
-                            margin="normal"
+                            fullWidth={true}
                             variant="outlined"
+                            margin="normal"
                             InputLabelProps={{
                                 shrink: true,
                             }}
                         />
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell align="right">Sex</TableCell>
-                                    <TableCell align="right">Birthday</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {this.state.customerDivs}
-                            </TableBody>
-                        </Table>
                     </label>
                 </form>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell align="right">Sex</TableCell>
+                            <TableCell align="right">Birthday</TableCell>
+                            <TableCell align="right">Key</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.customerDivs}
+                    </TableBody>
+                </Table>
             </div>);
     }
 }
