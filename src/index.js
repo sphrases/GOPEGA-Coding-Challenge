@@ -99,7 +99,7 @@ class NameForm extends React.Component {
     render() {
         return (<Container fixed>
                 <Grid container spacing={3}>
-                    <Grid item xs={2} color="green">
+                    <Grid item xs={12} sm={3} color="green">
                         <form onSubmit={this.handleSubmit}>
                             <label>
                                 <TextField
@@ -151,7 +151,7 @@ class NameForm extends React.Component {
 
                         </form>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12} sm={9}>
                         <CustomerList customers={this.state.customer}/>
                     </Grid>
                 </Grid>
