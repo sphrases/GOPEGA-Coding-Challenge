@@ -118,7 +118,7 @@ class NameForm extends React.Component {
                                     }}
                                 />
                                 <TextField
-                                    label="sex"
+                                    label="gender"
                                     value={this.state.sex}
                                     onChange={this.handleChangeSex}
                                     required={true}
@@ -129,7 +129,7 @@ class NameForm extends React.Component {
                                     }}
                                 />
                                 <TextField
-                                    label="date"
+                                    label="birthday"
                                     type="date"
                                     value={this.state.DOB}
                                     onChange={this.handleChangeDOB}
@@ -278,7 +278,7 @@ class CustomerList extends React.Component {
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell align="right">Sex</TableCell>
+                            <TableCell align="right">Gender</TableCell>
                             <TableCell align="right">Birthday</TableCell>
                             <TableCell align="right">Key</TableCell>
                         </TableRow>
