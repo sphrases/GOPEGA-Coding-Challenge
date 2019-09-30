@@ -38,15 +38,13 @@ const sampleCustomers = [
 function App() {
     return (
         <div className="App">
-            <h1>Hello, insert your Name</h1>
+            <h1>Hello, create a customer</h1>
             <NameForm/>
         </div>
     );
 }
 
 class NameForm extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -55,7 +53,6 @@ class NameForm extends React.Component {
             DOB: '',
             customer: {}
         };
-
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeSex = this.handleChangeSex.bind(this);
         this.handleChangeDOB = this.handleChangeDOB.bind(this);
@@ -74,13 +71,11 @@ class NameForm extends React.Component {
         this.setState({DOB: event.target.value});
     }
 
-
     handleSubmit(event) {
         //alert('A name was submitted: ' + this.state.name + '  ' + this.state.sex + '  ' + this.state.DOB);
         //add to customer array from state
         //reset current state, to clear customer data.
         //pass customer data to foreach and customer div
-
         let newCustomer = {
             name: this.state.name,
             sex: this.state.sex,
@@ -92,7 +87,6 @@ class NameForm extends React.Component {
             sex: '',
             DOB: ''
         });
-
         event.preventDefault();
     }
 
@@ -146,9 +140,7 @@ class NameForm extends React.Component {
                                 >
                                     create customer
                                 </Button>
-
                             </label>
-
                         </form>
                     </Grid>
                     <Grid item xs={12} sm={9}>
@@ -156,7 +148,7 @@ class NameForm extends React.Component {
                     </Grid>
                 </Grid>
             </Container>
-        ) //ends return
+        )
     }
 }
 
@@ -170,8 +162,6 @@ class CustomerList extends React.Component {
             customerDivs: [],
             customers: []
         };
-
-
         this.handleChangeSearch = this.handleChangeSearch.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -208,8 +198,6 @@ class CustomerList extends React.Component {
             );
             customerDiv = customerDiv.concat(cstmer);
         }
-        console.log(customerDiv);
-
         this.setState({
             customerDivs: customerDiv
         });
@@ -246,7 +234,6 @@ class CustomerList extends React.Component {
             this.fillCustomerList(customerList);
         }
     }
-
 
     render() {
         //return the List as <list elem="filteredList"/>
@@ -289,7 +276,6 @@ class CustomerList extends React.Component {
             </div>);
     }
 }
-
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App/>, rootElement);
