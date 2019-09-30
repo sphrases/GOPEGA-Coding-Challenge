@@ -14,21 +14,25 @@ import TableBody from "@material-ui/core/TableBody";
 
 const sampleCustomers = [
     {
+        key: new Date('1996-07-09T03:24:00'),
         name: "Mike",
         sex: "male",
         DOB: "1996-07-09"
     },
     {
+        key: new Date('1993-08-01T02:30:12'),
         name: "Tom",
         sex: "male",
         DOB: "1993-08-01"
     },
     {
+        key: new Date('1987-03-05T02:30:12'),
         name: "Jenny",
         sex: "female",
         DOB: "1987-03-05"
     },
     {
+        key: new Date('1981-01-12T02:30:12'),
         name: "Jake",
         sex: "male",
         DOB: "1981-01-12"
@@ -76,7 +80,9 @@ class NameForm extends React.Component {
         //add to customer array from state
         //reset current state, to clear customer data.
         //pass customer data to foreach and customer div
+        let date = new Date();
         let newCustomer = {
+            key: date.now,
             name: this.state.name,
             sex: this.state.sex,
             DOB: this.state.DOB
@@ -223,14 +229,20 @@ class CustomerList extends React.Component {
 
     filterName(name) {
         let customerList = this.state.customers;
-        if (name !== '') {
-            let q = _.filter(customerList, {name: name});
+        if (name !== '') {  //meh
+            let customerMatch = [];
+            _.some(customerList, function (e) {
+                if(e.name.toUpperCase().includes(name.toUpperCase())) {
+                    customerMatch.push(e);
+               }
+            });
+            let q = customerMatch;//_.filter(customerList, {name: name});
             if (q !== undefined) {
-                this.emptyCustomerList();
+                //this.emptyCustomerList();
                 this.fillCustomerList(q);
             }
         } else {
-            this.emptyCustomerList();
+            //this.emptyCustomerList();
             this.fillCustomerList(customerList);
         }
     }
