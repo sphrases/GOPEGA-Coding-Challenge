@@ -15,8 +15,18 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {connect, Provider} from "react-redux";
+import store from "./store";
+import {addCustomer} from "./actions";
 //____NEW CODE BELOW THIS LINE____
 
+window.store = store;
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addCustomer: customer => dispatch(addCustomer(customer))
+    };
+}
 
 //____OLD CODE BELOW THIS LINE____
 const sampleCustomers = [
@@ -48,10 +58,12 @@ const sampleCustomers = [
 
 function App() {
     return (
-        <div className="App">
-            <h1>Hello, create a customer</h1>
-            <NameForm/>
-        </div>
+        <Provider store={store}>
+            <div className="App">
+                <h1>Hello, create a customer</h1>
+                <Form/>
+            </div>
+        </Provider>
     );
 }
 
@@ -97,6 +109,13 @@ class NameForm extends React.Component {
             DOB: ''
         });
         event.preventDefault();
+
+        //This line should add stuff to the Redux Store
+        this.props.addCustomer({
+            name: this.state.name,
+            sex: this.state.sex,
+            DOB: this.state.DOB
+        });
     }
 
     render() {
@@ -113,7 +132,7 @@ class NameForm extends React.Component {
                                     margin="normal"
                                     fullWidth
                                 />
-                                <FormControl fullWidth >
+                                <FormControl fullWidth>
                                     <InputLabel
                                         htmlFor="age-simple">
                                         gender</InputLabel>
@@ -163,7 +182,20 @@ class NameForm extends React.Component {
     }
 }
 
+const Form = connect(
+    null,
+    mapDispatchToProps
+)(NameForm);
 
+export default Form;
+
+
+
+
+
+
+
+//_________________________________________
 class CustomerList extends React.Component {
     //use this to filter list
     constructor(props) {
