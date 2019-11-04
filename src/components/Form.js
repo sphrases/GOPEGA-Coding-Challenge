@@ -1,50 +1,141 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { addArticle } from "../actions/index";
+import React from "react";
+import {Container} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
+import {connect} from "react-redux";
+import {addCustomer} from "../actions";
+import CList from "./CustomerList";
+
+
 function mapDispatchToProps(dispatch) {
     return {
-        addArticle: article => dispatch(addArticle(article))
+        addCustomer: customer => dispatch(addCustomer(customer))
     };
 }
-class ConnectedForm extends Component {
+
+class NameForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: ""
+            name: '',
+            sex: '',
+            DOB: '',
+            customer: {}
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
+        this.handleChangeSex = this.handleChangeSex.bind(this);
+        this.handleChangeDOB = this.handleChangeDOB.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleChange(event) {
-        this.setState({ [event.target.id]: event.target.value });
+
+    handleChangeName(event) {
+        this.setState({name: event.target.value});
     }
+
+    handleChangeSex(event) {
+        this.setState({sex: event.target.value});
+    }
+
+    handleChangeDOB(event) {
+        this.setState({DOB: event.target.value});
+    }
+
     handleSubmit(event) {
+        //add to customer array from state
+        //reset current state, to clear customer data.
+        let newCustomer = {
+            name: this.state.name,
+            sex: this.state.sex,
+            DOB: this.state.DOB
+        };
+        this.setState({
+            customer: newCustomer,
+            name: '',
+            sex: '',
+            DOB: ''
+        });
         event.preventDefault();
-        const { title } = this.state;
-        this.props.addArticle({ title });
-        this.setState({ title: "" });
+
+        //This line should add stuff to the Redux Store
+        this.props.addCustomer({
+            name: this.state.name,
+            sex: this.state.sex,
+            DOB: this.state.DOB
+        });
     }
+
     render() {
-        const { title } = this.state;
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input
-                        type="text"
-                        id="title"
-                        value={title}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <button type="submit">SAVE</button>
-            </form>
-        );
+        return (<Container fixed>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={3} color="green">
+                        <form onSubmit={this.handleSubmit}>
+                            <label>
+                                <TextField
+                                    label="name"
+                                    value={this.state.name}
+                                    onChange={this.handleChangeName}
+                                    required={true}
+                                    margin="normal"
+                                    fullWidth
+                                />
+                                <FormControl fullWidth>
+                                    <InputLabel
+                                        htmlFor="age-simple">
+                                        gender</InputLabel>
+                                    <Select
+                                        value={this.state.sex}
+                                        onChange={this.handleChangeSex}
+
+                                        inputProps={{
+                                            name: 'gender',
+                                            id: 'gender-simple'
+                                        }}>
+                                        <MenuItem value={"female"} textAlign='left'>female</MenuItem>
+                                        <MenuItem value={"male"}>male</MenuItem>
+                                        <MenuItem value={"other"}>other</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <TextField
+                                    label="birthday"
+                                    type="date"
+                                    value={this.state.DOB}
+                                    onChange={this.handleChangeDOB}
+                                    required={true}
+                                    margin="normal"
+                                    fullWidth
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <br/>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    type="submit"
+                                    value="Submit"
+                                    fullWidth>
+                                    create customer
+                                </Button>
+                            </label>
+                        </form>
+                    </Grid>
+                    <Grid item xs={12} sm={9}>
+                        <CList customers={this.state.customer}/>
+                    </Grid>
+                </Grid>
+            </Container>
+        )
     }
 }
+
 const Form = connect(
     null,
     mapDispatchToProps
-)(ConnectedForm);
+)(NameForm);
 
 export default Form;
