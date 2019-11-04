@@ -33,7 +33,7 @@ Running application on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku"
     but I would use an external library for the table anyways, to provide sort functionality as well as more advanced UI elements 
 - Filter customers by not only name, but also gender and DOB
 
-	`if (e. `_CHANGE THIS_`.toUpperCase().includes(input.toUpperCase())) 
+	`if (e. `_name|gender|DOB_`.toUpperCase().includes(input.toUpperCase())) 
                     customerMatch.push(e);`
      Or 
 
