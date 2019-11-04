@@ -35,3 +35,5 @@ Running application on [Heroku](https://gopega-challenge.herokuapp.com/ "Heroku"
 
 	`if (e. `_CHANGE THIS_`.toUpperCase().includes(input.toUpperCase())) 
                     customerMatch.push(e);`
+     Or 
+
