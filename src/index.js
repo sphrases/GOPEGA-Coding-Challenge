@@ -11,7 +11,7 @@ function App() {
     return (
         <Provider store={store}>
             <div className="App">
-                <h1>Hello, create a customer</h1>
+                <h1>Hello, create a Shithead</h1>
                 <Form/>
             </div>
         </Provider>
